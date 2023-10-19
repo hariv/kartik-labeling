@@ -1,7 +1,11 @@
-var cookieName = "kartikCookie";
-var imageOneId = "imageOne";
-var imageTwoId = "imageTwo";
-var formDivId = "formDiv";
+const cookieName = "kartikCookie";
+const imageOneId = "imageOne";
+const imageTwoId = "imageTwo";
+const formDivId = "formDiv";
+const imageOneName = "imageOneName";
+const imageTwoName = "imageTwoName";
+const baseUrl = "https://kartik-labeling-cvpr-0ed3099180c2.herokuapp.com/";
+//const baseUrl = "http://localhost:8080/";
 
 function sendData(d, endpoint) {
     var xmlhttp = new XMLHttpRequest();
@@ -24,30 +28,22 @@ if (!getCookie(cookieName)) {
 }
 
 window.onload = function() {
-    console.log("lsdf");
+    var imageOneSrc = document.getElementById(imageOneId).src;
+    var imageTwoSrc = document.getElementById(imageTwoId).src;
+
+    imageOneSrc = imageOneSrc.replace(baseUrl, "");
+    imageTwoSrc = imageTwoSrc.replace(baseUrl, "");
+
     var hiddenInputOne = document.createElement("input");
     hiddenInputOne.setAttribute("type", "hidden");
-    hiddenInputOne.setAttribute("name", "imgOneName");
-    hiddenInputOne.setAttribute("value", document.getElementById(imageOneId).src);
+    hiddenInputOne.setAttribute("name", imageOneName);
+    hiddenInputOne.setAttribute("value", imageOneSrc);
     
     var hiddenInputTwo = document.createElement("input");
     hiddenInputTwo.setAttribute("type", "hidden");
-    hiddenInputTwo.setAttribute("name", "imgTwoName");
-    hiddenInputTwo.setAttribute("value", document.getElementById(imageTwoId).src);
+    hiddenInputTwo.setAttribute("name", imageTwoName);
+    hiddenInputTwo.setAttribute("value", imageTwoSrc);
     
     document.getElementById(formDivId).appendChild(hiddenInputOne);
     document.getElementById(formDivId).appendChild(hiddenInputTwo);
 }
-
-/*function submitLabel() {
-    var imgOneName = document.getElementById(imageOneId).src;
-    var imgTwoName = document.getElementById(imageTwoId).src;
-    var label = document.getElementById("labelOption").value;
-
-    var labelObject = {};
-    labelObject.imgOneName = imgOneName;
-    labelObject.imgTwoName = imgTwoName;
-    labelObject.label = label;
-
-    sendData(labelObject);    
-}*/
