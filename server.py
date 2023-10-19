@@ -9,9 +9,11 @@ from http.server import BaseHTTPRequestHandler, HTTPServer
 
 hostname = "localhost"
 port = os.environ['PORT']
+#port = 8080
 
 class StaticServer(BaseHTTPRequestHandler):
     def __init__(self, *args):
+        self.not_found_file = "404.html"
         self.index_file = "index.html"
         self.assets_path = "assets"
         self.init_mime_type_map()
