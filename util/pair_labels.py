@@ -8,7 +8,7 @@ class PairLabel:
 
     def add_label(self, image_one_name, image_two_name, label, labeler):
         add_label_query = """INSERT INTO public.pair_labels (img_pair, label, labeler, req_ts) VALUES (%s, %s, %s, CURRENT_TIMESTAMP(5))"""
-        cursor = self.conn.cursor(name="kartik_cursor")
+        cursor = self.conn.cursor()
         cursor.execute(add_label_query, (image_one_name + "," + image_two_name, label, labeler))
         self.conn.commit()
         cursor.close()
