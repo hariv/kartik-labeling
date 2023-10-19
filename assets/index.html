@@ -4,19 +4,20 @@
      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="js/main.js"></script>
     </head>
   <body>
     <!-- <div class="center-screen" style="position:absolute; left:700px; top:200px;">-->
       <div class="center-screen" style="margin-left:700px;margin-top:200px;">
       
-	<img src="imgs/img_1.jpg" style="width:250px;height:300px;"/>
-	<img src="imgs/img_2.jpg" style="width:250px;height:300px;"/> <br/><br/>
+	<img id="imageOne" src="imgs/img_1.jpg" style="width:250px;height:300px;"/>
+	<img id="imageTwo" src="imgs/img_2.jpg" style="width:250px;height:300px;"/> <br/><br/>
       
-      <form>
-	<div class="form-group">
+      <form action="/home" method="POST">
+	<div class="form-group" id="formDiv">
 	  <label for="label">Enter label here:</label>
 
-	  <select name="label" id="cars">
+	  <select name="label" id="labelOption">
 	    <option value="1">1</option>
 	    <option value="2">2</option>
 	    <option value="3">3</option>

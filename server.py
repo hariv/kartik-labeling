@@ -84,6 +84,19 @@ class StaticServer(BaseHTTPRequestHandler):
         self.send_content_headers(self.mime_type_map[".html"])
         return self.read_file(os.path.join(self.assets_path, self.not_found_file))
 
+    def do_POST(self):
+        content_length = int(self.headers['Content-Length'])
+        post_data = self.rfile.read(content_length);
+        print(post_data)
+
+        content = self.fetch_image_content(self.path)
+
+        if content:
+            self.wfile.write(content)
+        else:
+            content = self.fetch_static_content(self.path)
+            self.wfile.write(bytes(content, encoding='utf8'))
+            
     def do_GET(self):
         content = self.fetch_image_content(self.path)
         
