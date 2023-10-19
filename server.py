@@ -6,6 +6,7 @@ import json
 import random
 
 from urllib.parse import urlparse
+from util.pair_labels import PairLabel
 from http.server import BaseHTTPRequestHandler, HTTPServer
 
 hostname = "localhost"
@@ -21,6 +22,11 @@ class StaticServer(BaseHTTPRequestHandler):
         self.imgs_list = os.listdir(os.path.join(self.assets_path, self.imgs_path))
         self.img_1_placeholder = "img_1.jpg"
         self.img_2_placeholder = "img_2.jpg"
+        self.cookie_str = "Cookie"
+        self.kartik_cookie_str = "kartikCookie"
+        self.label_str = "label"
+        self.image_one_name_str = "imageOneName"
+        self.image_two_name_str = "imageTwoName"
         self.init_mime_type_map()
         BaseHTTPRequestHandler.__init__(self, *args)
 
@@ -41,7 +47,7 @@ class StaticServer(BaseHTTPRequestHandler):
         self.end_headers()
         
     def read_file(self, file_path, binary=False):
-        with open(file_path, 'rb' if binary else 'r') as f:
+        with open(file_path, "rb" if binary else "r") as f:
             content = f.read()
         return content
     
@@ -84,18 +90,67 @@ class StaticServer(BaseHTTPRequestHandler):
         self.send_content_headers(self.mime_type_map[".html"])
         return self.read_file(os.path.join(self.assets_path, self.not_found_file))
 
-    def do_POST(self):
-        content_length = int(self.headers['Content-Length'])
-        post_data = self.rfile.read(content_length);
-        print(post_data)
+    def extract_post_data(self, post_data):
+        label = None
+        image_one_name = None
+        image_two_name = None
+        post_data_pairs = post_data.split("&")
 
+        for data_pair in post_data_pairs:
+            param_val = data_pair.split("=")
+
+            if param_val[0] == self.label_str:
+                label = param_val[1]
+
+            elif param_val[0] == self.image_one_name_str:
+                image_one_name = param_val[1].replace("%2F", "/")
+
+            elif param_val[0] == self.image_two_name_str:
+                image_two_name = param_val[1].replace("%2F", "/")
+
+        return label, image_one_name, image_two_name
+
+    def extract_cookie(self, req_headers):
+        header_list = req_headers.split("\n")
+
+        for h in header_list:
+            h_pair = h.split(": ")
+
+            if h_pair[0] == self.cookie_str:
+                cookie_key_vals = h_pair[1]
+                cookie_key_val_list = cookie_key_vals.split("; ")
+
+                for c_k in cookie_key_val_list:
+                    cookie_name = c_k.split("=")[0]
+                    cookie_val = c_k.split("=")[1]
+
+                    if cookie_name == self.kartik_cookie_str:
+                        return cookie_val
+        
+    def do_POST(self):
+        content_length = int(self.headers["Content-Length"])
+        post_data = self.rfile.read(content_length).decode("utf-8");
+
+        label, image_one_name, image_two_name = self.extract_post_data(post_data)
+        labeler = self.extract_cookie(str(self.headers))            
+
+        pair_label_helper = PairLabel()
+        if label and image_one_name and image_two_name and labeler:
+            #print(label)
+            #print(image_one_name)
+            #print(image_two_name)
+            #print(labeler)
+            pair_label_helper.add_label(image_one_name, image_two_name, label, labeler)
+
+        pair_label_helper.close_connection()
+        
         content = self.fetch_image_content(self.path)
 
         if content:
             self.wfile.write(content)
         else:
             content = self.fetch_static_content(self.path)
-            self.wfile.write(bytes(content, encoding='utf8'))
+            self.wfile.write(bytes(content, encoding="utf8"))
             
     def do_GET(self):
         content = self.fetch_image_content(self.path)
@@ -104,13 +159,13 @@ class StaticServer(BaseHTTPRequestHandler):
             self.wfile.write(content)
         else:
             content = self.fetch_static_content(self.path)
-            self.wfile.write(bytes(content, encoding='utf8'))
-            
-if __name__ == '__main__':
+            self.wfile.write(bytes(content, encoding="utf8"))
+
+if __name__ == "__main__":
     if len(sys.argv) == 2:
         port = int(sys.argv[1])
     
-    server = HTTPServer(('', int(port)), StaticServer)
+    server = HTTPServer(("", int(port)), StaticServer)
     print("Server running on port " + str(port))
 
     server.serve_forever()
