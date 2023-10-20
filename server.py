@@ -174,6 +174,7 @@ class StaticServer(BaseHTTPRequestHandler):
             
     def do_GET(self):
         if self.path == "/ecs152a_ass1":
+            print(str(self.headers))
             student_id = self.extract_student_id(str(self.headers))
             
             if student_id:
