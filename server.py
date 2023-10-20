@@ -24,7 +24,7 @@ class StaticServer(BaseHTTPRequestHandler):
         self.img_2_placeholder = "img_2.jpg"
         self.cookie_str = "Cookie"
         self.kartik_cookie_str = "kartikCookie"
-        self.student_id_str = "student-id"
+        self.student_id_str = "Student-Id"
         self.label_str = "label"
         self.image_one_name_str = "imageOneName"
         self.image_two_name_str = "imageTwoName"
