@@ -24,9 +24,11 @@ class StaticServer(BaseHTTPRequestHandler):
         self.img_2_placeholder = "img_2.jpg"
         self.cookie_str = "Cookie"
         self.kartik_cookie_str = "kartikCookie"
+        self.student_id_str = "student-id"
         self.label_str = "label"
         self.image_one_name_str = "imageOneName"
         self.image_two_name_str = "imageTwoName"
+        self.shift = 3
         self.init_mime_type_map()
         BaseHTTPRequestHandler.__init__(self, *args)
 
@@ -40,6 +42,19 @@ class StaticServer(BaseHTTPRequestHandler):
         self.mime_type_map[".html"] = "text/html"
         self.mime_type_map[".css"] = "text/css"
         self.mime_type_map[".js"] = "text/javascript"
+
+    def substitution_cipher(self, student_id):
+        result = ""
+        for char in student_id:
+            if not char.isdigit():
+                break
+            pos = int(char)
+
+            shifted = (pos + self.shift) % 10
+
+            result += str(shifted)
+
+        return result
     
     def send_content_headers(self, content_type):
         self.send_response(200)
@@ -126,6 +141,15 @@ class StaticServer(BaseHTTPRequestHandler):
 
                     if cookie_name == self.kartik_cookie_str:
                         return cookie_val
+
+    def extract_student_id(self, req_headers):
+        header_list = req_headers.split("\n")
+
+        for h in header_list:
+            h_pair = h.split(": ")
+
+            if h_pair[0] == self.student_id_str:
+                return h_pair[1]
         
     def do_POST(self):
         content_length = int(self.headers["Content-Length"])
@@ -133,19 +157,15 @@ class StaticServer(BaseHTTPRequestHandler):
 
         label, image_one_name, image_two_name = self.extract_post_data(post_data)
         labeler = self.extract_cookie(str(self.headers))            
-
+        
         pair_label_helper = PairLabel()
         if label and image_one_name and image_two_name and labeler:
-            #print(label)
-            #print(image_one_name)
-            #print(image_two_name)
-            #print(labeler)
             pair_label_helper.add_label(image_one_name, image_two_name, label, labeler)
-
+        
         pair_label_helper.close_connection()
         
         content = self.fetch_image_content(self.path)
-
+        
         if content:
             self.wfile.write(content)
         else:
@@ -153,14 +173,38 @@ class StaticServer(BaseHTTPRequestHandler):
             self.wfile.write(bytes(content, encoding="utf8"))
             
     def do_GET(self):
-        content = self.fetch_image_content(self.path)
-        
-        if content:
-            self.wfile.write(content)
+        if self.path == "/ecs152a_ass1":
+            student_id = self.extract_student_id(str(self.headers))
+            
+            if student_id:
+                encrypted_id = self.substitution_cipher(student_id)
+                if encrypted_id:
+                    self.send_response(200)
+                    self.send_header("Content-Type", "text/plain")
+                    self.send_header("ecs152a-resp", encrypted_id)
+                    self.end_headers()
+                    self.wfile.write("You should look at the response headers".encode())
+                else:
+                    self.send_response(200)
+                    self.send_header("Content-Type", "text/plain")
+                    self.send_header("ecs152a-resp", "Invalid ID")
+                    self.end_headers()
+                    self.wfile.write("You should look at the response headers".encode())
+            else:
+                self.send_response(200)
+                self.send_header("Content-Type", "text/plain")
+                self.send_header("ecs152a-resp", "Expected student-id header missing")
+                self.end_headers()
+                self.wfile.write("You should look at the response headers".encode())
         else:
-            content = self.fetch_static_content(self.path)
-            self.wfile.write(bytes(content, encoding="utf8"))
-
+            content = self.fetch_image_content(self.path)
+            
+            if content:
+                self.wfile.write(content)
+            else:
+                content = self.fetch_static_content(self.path)
+                self.wfile.write(bytes(content, encoding="utf8"))
+                
 if __name__ == "__main__":
     if len(sys.argv) == 2:
         port = int(sys.argv[1])
