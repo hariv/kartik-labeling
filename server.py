@@ -99,7 +99,7 @@ class StaticServer(BaseHTTPRequestHandler):
         
             if os.path.exists(resource_file) and os.path.isfile(resource_file):
                 if path.endswith(".html"):
-                    pair_helper = PairHelper()
+                    pair_helper = PairHelper(version)
                     img_1_b64, img_2_b64, pair_id = pair_helper.fetch_pair(request_count)
                     pair_helper.close_connection()
                     
@@ -117,7 +117,7 @@ class StaticServer(BaseHTTPRequestHandler):
                 return self.read_file(resource_file)
 
             if os.path.basename(path) == "home":
-                pair_helper = PairHelper()
+                pair_helper = PairHelper(version)
                 img_1_b64, img_2_b64, pair_id = pair_helper.fetch_pair(request_count)
                 pair_helper.close_connection()
                 
