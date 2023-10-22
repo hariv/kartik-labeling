@@ -5,6 +5,7 @@ import time
 import json
 import random
 
+from util.pair import PairHelper
 from urllib.parse import urlparse
 from util.pair_labels import PairLabel
 from http.server import BaseHTTPRequestHandler, HTTPServer

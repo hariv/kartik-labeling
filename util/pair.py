@@ -1,7 +1,7 @@
 import os
 import psycopg2
 
-class Pair:
+class PairHelper():
     def init_table_version_map(self):
         with open(self.table_version_map_file) a f:
             self.table_version_map = json.loads(f.read())
