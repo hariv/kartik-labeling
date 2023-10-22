@@ -101,6 +101,7 @@ class StaticServer(BaseHTTPRequestHandler):
             if os.path.exists(resource_file) and os.path.isfile(resource_file):
                 if path.endswith(".html"):
                     pair_helper = PairHelper(version)
+                    request_count = 100
                     fetch_results = pair_helper.fetch_pair(request_count)
                     pair_helper.close_connection()
 
