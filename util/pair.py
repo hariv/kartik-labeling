@@ -19,7 +19,7 @@ class PairHelper():
         print(fetch_pair_query)
         print(request_count)
         cursor = self.conn.cursor()
-        cursor.execute(fetch_pair_query, (request_count))
+        cursor.execute(fetch_pair_query, request_count)
         result = cursor.fetchone()
         return result
 
