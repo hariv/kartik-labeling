@@ -17,6 +17,7 @@ port = os.environ['PORT']
 class StaticServer(BaseHTTPRequestHandler):
     def __init__(self, *args):
         self.not_found_file = "404.html"
+        self.oncomplete_file = "complete.html"
         self.index_file = "index.html"
         self.assets_path = "assets"
         self.imgs_path = "imgs"
@@ -100,17 +101,22 @@ class StaticServer(BaseHTTPRequestHandler):
             if os.path.exists(resource_file) and os.path.isfile(resource_file):
                 if path.endswith(".html"):
                     pair_helper = PairHelper(version)
-                    img_1_b64, img_2_b64, pair_id = pair_helper.fetch_pair(request_count)
+                    fetch_results = pair_helper.fetch_pair(request_count)
                     pair_helper.close_connection()
+
+                    html_content = self.read_file(os.path.join(self.assets_path, self.oncomplete_file))
+                    if fetch_results:
+                        img_1_b64, img_2_b64, pair_id = fetch_results[0], fetch_results[1], fetch_results[2]
                     
+                        html_content = self.read_file(resource_file)
+                        html_content = html_content.replace(self.img_1_placeholder,
+                                                            img_1_b64)
+                        html_content = html_content.replace(self.img_2_placeholder,
+                                                            img_2_b64)
+                        html_content = html_content.replace(self.pair_id_placeholder,
+                                                            pair_id)
+
                     self.send_content_headers(self.mime_type_map[resource_extension])
-                    html_content = self.read_file(resource_file)
-                    html_content = html_content.replace(self.img_1_placeholder,
-                                                        img_1_b64)
-                    html_content = html_content.replace(self.img_2_placeholder,
-                                                        img_2_b64)
-                    html_content = html_content.replace(self.pair_id_placeholder,
-                                                        pair_id)
                     return html_content
 
                 self.send_content_headers(self.mime_type_map[resource_extension])
@@ -118,20 +124,24 @@ class StaticServer(BaseHTTPRequestHandler):
 
             if os.path.basename(path) == "home":
                 pair_helper = PairHelper(version)
-                img_1_b64, img_2_b64, pair_id = pair_helper.fetch_pair(request_count)
-                pair_helper.close_connection()
                 
-                html_content = self.read_file(os.path.join(self.assets_path, self.index_file))
-                html_content = html_content.replace(self.img_1_placeholder,
-                                                    img_1_b64)
-                html_content = html_content.replace(self.img_2_placeholder,
-                                                    img_2_b64)
-                html_content = html_content.replace(self.pair_id_placeholder,
-                                                    pair_id)
-            
+                fetch_results = pair_helper.fetch_pair(request_count)
+                pair_helper.close_connection()
+
+                html_content = self.read_file(os.path.join(self.assets_path, self.oncomplete_file))
+                if fetch_results:
+                    img_1_b64, img_2_b64, pair_id = fetch_results[0], fetch_results[1], fetch_results[2]
+                
+                    html_content = self.read_file(os.path.join(self.assets_path, self.index_file))
+                    html_content = html_content.replace(self.img_1_placeholder,
+                                                        img_1_b64)
+                    html_content = html_content.replace(self.img_2_placeholder,
+                                                        img_2_b64)
+                    html_content = html_content.replace(self.pair_id_placeholder,
+                                                        pair_id)
+
                 self.send_content_headers(self.mime_type_map[".html"])
                 return html_content
-            
         self.send_content_headers(self.mime_type_map[".html"])
         return self.read_file(os.path.join(self.assets_path, self.not_found_file))
 
