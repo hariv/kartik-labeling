@@ -3,7 +3,7 @@ import psycopg2
 
 class PairHelper():
     def init_table_version_map(self):
-        with open(self.table_version_map_file) a f:
+        with open(self.table_version_map_file) as f:
             self.table_version_map = json.loads(f.read())
         
     def __init__(self, url_version):
