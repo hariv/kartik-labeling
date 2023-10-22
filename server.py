@@ -43,10 +43,10 @@ class StaticServer(BaseHTTPRequestHandler):
         return d
     
     def load_versions_list(self):
-        return self.load_list(self.versions_file)
+        self.versions_list = self.load_list(self.versions_file)
 
     def load_users_list(self):
-        return self.load_list(self.users_file)
+        self.users_list = self.load_list(self.users_file)
     
     def init_mime_type_map(self):
         self.mime_type_map = {}
