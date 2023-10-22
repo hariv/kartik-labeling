@@ -20,18 +20,34 @@ class StaticServer(BaseHTTPRequestHandler):
         self.assets_path = "assets"
         self.imgs_path = "imgs"
         self.imgs_list = os.listdir(os.path.join(self.assets_path, self.imgs_path))
-        self.img_1_placeholder = "img_1.jpg"
-        self.img_2_placeholder = "img_2.jpg"
+        self.img_1_placeholder = "img1PlaceHolder.jpg"
+        self.img_2_placeholder = "img2PlaceHolder.jpg"
+        self.pair_id_placeholder = "pairIdPlaceHolder"
         self.cookie_str = "Cookie"
         self.kartik_cookie_str = "kartikCookie"
         self.student_id_str = "Student-Id"
         self.label_str = "label"
         self.image_one_name_str = "imageOneName"
         self.image_two_name_str = "imageTwoName"
+        self.versions_file = "versions.txt"
+        self.users_file = "users.txt"
         self.shift = 3
         self.init_mime_type_map()
+        self.load_versions_list()
+        self.load_users_list()
         BaseHTTPRequestHandler.__init__(self, *args)
 
+    def load_list(self, list_file):
+        with open(list_file) as f:
+            d = f.read().splitlines()
+        return d
+    
+    def load_versions_list(self):
+        return self.load_list(self.versions_file)
+
+    def load_users_list(self):
+        return self.load_list(self.users_file)
+    
     def init_mime_type_map(self):
         self.mime_type_map = {}
         self.mime_type_map[".apk"] = "application/vnd.android.package-archive"
@@ -75,32 +91,45 @@ class StaticServer(BaseHTTPRequestHandler):
                 self.send_content_headers(self.mime_type_map[image_extension])
                 return self.read_file(image_file, binary=True)
             
-    def fetch_static_content(self, path):
-        resource_file = os.path.join(self.assets_path, path[1:])
-        _, resource_extension = os.path.splitext(resource_file)
+    def fetch_static_content(self, path, version, user, request_count):
+        if version in self.versions_list and user in self.users_list:
+            resource_file = os.path.join(self.assets_path, path[1:])
+            _, resource_extension = os.path.splitext(resource_file)
         
-        if os.path.exists(resource_file) and os.path.isfile(resource_file):
-            if path.endswith(".html"):
+            if os.path.exists(resource_file) and os.path.isfile(resource_file):
+                if path.endswith(".html"):
+                    pair_helper = PairHelper()
+                    img_1_b64, img_2_b64, pair_id = pair_helper.fetch_pair(request_count)
+                    pair_helper.close_connection()
+                    
+                    self.send_content_headers(self.mime_type_map[resource_extension])
+                    html_content = self.read_file(resource_file)
+                    html_content = html_content.replace(self.img_1_placeholder,
+                                                        img_1_b64)
+                    html_content = html_content.replace(self.img_2_placeholder,
+                                                        img_2_b64)
+                    html_content = html_content.replace(self.pair_id_placeholder,
+                                                        pair_id)
+                    return html_content
+
                 self.send_content_headers(self.mime_type_map[resource_extension])
-                html_content = self.read_file(resource_file)
+                return self.read_file(resource_file)
+
+            if os.path.basename(path) == "home":
+                pair_helper = PairHelper()
+                img_1_b64, img_2_b64, pair_id = pair_helper.fetch_pair(request_count)
+                pair_helper.close_connection()
+                
+                html_content = self.read_file(os.path.join(self.assets_path, self.index_file))
                 html_content = html_content.replace(self.img_1_placeholder,
-                                                    random.choice(self.imgs_list))
+                                                    img_1_b64)
                 html_content = html_content.replace(self.img_2_placeholder,
-                                                    random.choice(self.imgs_list))
-                return html_content
-
-            self.send_content_headers(self.mime_type_map[resource_extension])
-            return self.read_file(resource_file)
-
-        if os.path.basename(path) == "home":
-            html_content = self.read_file(os.path.join(self.assets_path, self.index_file))
-            html_content = html_content.replace(self.img_1_placeholder,
-                                                random.choice(self.imgs_list))
-            html_content = html_content.replace(self.img_2_placeholder,
-                                                random.choice(self.imgs_list))
+                                                    img_2_b64)
+                html_content = html_content.replace(self.pair_id_placeholder,
+                                                    pair_id)
             
-            self.send_content_headers(self.mime_type_map[".html"])
-            return html_content
+                self.send_content_headers(self.mime_type_map[".html"])
+                return html_content
             
         self.send_content_headers(self.mime_type_map[".html"])
         return self.read_file(os.path.join(self.assets_path, self.not_found_file))
@@ -125,7 +154,7 @@ class StaticServer(BaseHTTPRequestHandler):
 
         return label, image_one_name, image_two_name
 
-    def extract_cookie(self, req_headers):
+    def get_count_from_cookie(self, req_headers, target_cookie_name):
         header_list = req_headers.split("\n")
 
         for h in header_list:
@@ -138,10 +167,11 @@ class StaticServer(BaseHTTPRequestHandler):
                 for c_k in cookie_key_val_list:
                     cookie_name = c_k.split("=")[0]
                     cookie_val = c_k.split("=")[1]
-
-                    if cookie_name == self.kartik_cookie_str:
-                        return cookie_val
-
+                    
+                    if cookie_name == target_cookie_name:
+                        return cookie_val                
+        return "1"
+    
     def extract_student_id(self, req_headers):
         header_list = req_headers.split("\n")
 
@@ -154,23 +184,20 @@ class StaticServer(BaseHTTPRequestHandler):
     def do_POST(self):
         content_length = int(self.headers["Content-Length"])
         post_data = self.rfile.read(content_length).decode("utf-8");
-
-        label, image_one_name, image_two_name = self.extract_post_data(post_data)
-        labeler = self.extract_cookie(str(self.headers))            
+        base_path = '/'.join(self.path.split('/')[:-2])
+        label, pair_id = self.extract_post_data(post_data)
+        request_counter = self.get_count_from_cookie(str(self.headers), self.kartik_cookie_count_str)
+        request_user = self.path.split('/')[-1]
+        request_version = self.path.split('/')[-2]
         
         pair_label_helper = PairLabel()
-        if label and image_one_name and image_two_name and labeler:
-            pair_label_helper.add_label(image_one_name, image_two_name, label, labeler)
+        if label and pair_id and request_user:
+            pair_label_helper.add_label(label, pair_id, request_user)
         
         pair_label_helper.close_connection()
         
-        content = self.fetch_image_content(self.path)
-        
-        if content:
-            self.wfile.write(content)
-        else:
-            content = self.fetch_static_content(self.path)
-            self.wfile.write(bytes(content, encoding="utf8"))
+        content = self.fetch_static_content(base_path, request_version, request_user, request_counter)
+        self.wfile.write(bytes(content, encoding="utf8"))
             
     def do_GET(self):
         if self.path == "/ecs152a_ass1":
@@ -198,13 +225,13 @@ class StaticServer(BaseHTTPRequestHandler):
                 self.end_headers()
                 self.wfile.write("You should look at the response headers".encode())
         else:
-            content = self.fetch_image_content(self.path)
+            request_user = self.path.split('/')[-1]
+            request_version = self.path.split('/')[-2]
+            base_path = '/'.join(self.path.split('/')[:-2])
+            request_counter = self.get_count_from_cookie(str(self.headers), self.kartik_cookie_count_str)
             
-            if content:
-                self.wfile.write(content)
-            else:
-                content = self.fetch_static_content(self.path)
-                self.wfile.write(bytes(content, encoding="utf8"))
+            content = self.fetch_static_content(base_path, request_version, request_user, request_counter)
+            self.wfile.write(bytes(content, encoding="utf8"))
                 
 if __name__ == "__main__":
     if len(sys.argv) == 2:
