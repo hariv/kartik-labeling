@@ -16,8 +16,8 @@ class PairHelper():
 
     def fetch_pair(self, request_count):
         fetch_pair_query = f"SELECT {self.table_name}.img1_b64, {self.table_name}.img2_b64, {self.table_name}.pair_id FROM public.{self.table_name} WHERE id = %s"
-        print(fetch_pair_query)
-        print(request_count)
+        #print(fetch_pair_query)
+        #print(request_count)
         cursor = self.conn.cursor()
         cursor.execute(fetch_pair_query, (request_count))
         result = cursor.fetchone()

@@ -127,10 +127,12 @@ class StaticServer(BaseHTTPRequestHandler):
 
             if os.path.basename(path) == "home":
                 pair_helper = PairHelper(version)
-                
+                request_count = 100
+                print(request_count)
                 fetch_results = pair_helper.fetch_pair(request_count)
+                print(fetch_results)
                 pair_helper.close_connection()
-
+                
                 html_content = self.read_file(os.path.join(self.assets_path, self.oncomplete_file))
                 if fetch_results:
                     img_1_b64, img_2_b64, pair_id = fetch_results[0], fetch_results[1], fetch_results[2]
