@@ -5,7 +5,7 @@ import base64
 import psycopg2
 
 IMAGES_BASE_PATH = os.path.join('assets', 'imgs')
-CONFIG_JSON = "config.json"
+CONFIG_JSON = "config_sample.json"
 
 def read_json(json_name):
     with open(json_name) as f:
