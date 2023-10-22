@@ -102,7 +102,9 @@ class StaticServer(BaseHTTPRequestHandler):
                 if path.endswith(".html"):
                     pair_helper = PairHelper(version)
                     request_count = 100
+                    print(request_count)
                     fetch_results = pair_helper.fetch_pair(request_count)
+                    print(fetch_results)
                     pair_helper.close_connection()
 
                     html_content = self.read_file(os.path.join(self.assets_path, self.oncomplete_file))
