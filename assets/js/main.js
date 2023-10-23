@@ -4,7 +4,8 @@ const imageTwoId = "imageTwo";
 const formDivId = "formDiv";
 const imageOneName = "imageOneName";
 const imageTwoName = "imageTwoName";
-const baseUrl = "https://kartik-labeling-cvpr-0ed3099180c2.herokuapp.com/";
+const labelFormId = "labelForm";
+const baseUrl = "https://kartik-labeling-cvpr-0ed3099180c2.herokuapp.com";
 //const baseUrl = "http://localhost:8080/";
 
 function getCookie(name) {
@@ -25,6 +26,9 @@ if (!getCookie(cookieName)) {
 }
 
 function preSubmit() {
+    var versionUserStr = window.location.href.replace(baseUrl, "");
+    document.getElementById(labelFormId).action = versionUserStr;
+    
     var label = document.getElementById(labelField).value;
     if (label > 10 || label < 0)
 	return false;
