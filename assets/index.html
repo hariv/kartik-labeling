@@ -15,7 +15,7 @@
 	<img id="imageOne" src="img1PlaceHolder.jpg"/>
 	<img id="imageTwo" src="img2PlaceHolder.jpg"/> <br/><br/>
       
-      <form action="/home" method="POST" id="labelForm" onsubmit="return preSubmit();">
+      <form action="/home" method="POST" id="labelForm" onsubmit="event.preventDefault(); preSubmit();">
 	<div class="form-group" id="formDiv">
 	  <label for="label">Enter label here (1-10):</label>
 	  <input id="labelField" type="number" min="1" max="10" name="label" />
