@@ -211,6 +211,15 @@ class StaticServer(BaseHTTPRequestHandler):
         request_user = self.path.split('/')[-1]
         request_version = self.path.split('/')[-2]
         
+        print("post data")
+        print(post_data)
+        print("request counter")
+        print(request_counter)
+        print("request user")
+        print(request_user)
+        print("request version")
+        print(request_version)
+        
         pair_label_helper = PairLabel()
         if label and pair_id and request_user:
             pair_label_helper.add_label(label, pair_id, request_user)

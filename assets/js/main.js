@@ -12,34 +12,28 @@ function getCookie(name) {
     return match ? match[1] : null;
 }
 
-if (!getCookie(cookieName)) {
+function setCookie(val) {
     var now = new Date();
     var time = now.getTime();
     var expireTime = time + 3000000*3600;
     now.setTime(expireTime);
     document.cookie = cookieName + "=" + 1 + ";expires=" + now.toUTCString() + ";path=/";
-    //document.cookie = cookieName + "=" + Math.floor(Math.random() * 1000000000) + ";expires=" + now.toUTCString() + ";path=/";
 }
 
-window.onload = function() {
-    console.log(getCookie(cookieName));
-    //console.log(document.cookie);
-    /*var imageOneSrc = document.getElementById(imageOneId).src;
-    var imageTwoSrc = document.getElementById(imageTwoId).src;
+if (!getCookie(cookieName)) {
+    setCookie(1);
+}
 
-    imageOneSrc = imageOneSrc.replace(baseUrl, "");
-    imageTwoSrc = imageTwoSrc.replace(baseUrl, "");
-
-    var hiddenInputOne = document.createElement("input");
-    hiddenInputOne.setAttribute("type", "hidden");
-    hiddenInputOne.setAttribute("name", imageOneName);
-    hiddenInputOne.setAttribute("value", imageOneSrc);
-    
-    var hiddenInputTwo = document.createElement("input");
-    hiddenInputTwo.setAttribute("type", "hidden");
-    hiddenInputTwo.setAttribute("name", imageTwoName);
-    hiddenInputTwo.setAttribute("value", imageTwoSrc);
-    
-    document.getElementById(formDivId).appendChild(hiddenInputOne);
-    document.getElementById(formDivId).appendChild(hiddenInputTwo);*/
+function preSubmit() {
+    var label = document.getElementById(labelField).value;
+    if (label > 10 || label < 0)
+	return false;
+    var currentCount = getCookie(cookieName);
+    if (!currentCount) {
+	setCookie(1);
+    }
+    else {
+	setCookie(parseInt(currentCount) + 1);
+    }
+    return True;
 }
