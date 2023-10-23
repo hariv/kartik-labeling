@@ -206,7 +206,7 @@ class StaticServer(BaseHTTPRequestHandler):
         content_length = int(self.headers["Content-Length"])
         post_data = self.rfile.read(content_length).decode("utf-8");
         base_path = '/'.join(self.path.split('/')[:-2])
-        label, pair_id = self.extract_post_data(post_data)
+        #label, pair_id = self.extract_post_data(post_data)
         request_counter = self.get_count_from_cookie(str(self.headers), self.kartik_count_cookie_str)
         request_user = self.path.split('/')[-1]
         request_version = self.path.split('/')[-2]
