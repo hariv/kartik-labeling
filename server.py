@@ -169,7 +169,7 @@ class StaticServer(BaseHTTPRequestHandler):
                 label = param_val[1]
 
             elif param_val[0] == self.pair_id_str:
-                pair_id = param_val[2]
+                pair_id = param_val[1]
 
         return label, pair_id
 
