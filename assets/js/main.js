@@ -19,7 +19,7 @@ function setCookie(val) {
     var time = now.getTime();
     var expireTime = time + 3000000*3600;
     now.setTime(expireTime);
-    document.cookie = cookieName + "=" + 1 + ";expires=" + now.toUTCString() + ";path=/";
+    document.cookie = cookieName + "=" + val + ";expires=" + now.toUTCString() + ";path=/";
 }
 
 if (!getCookie(cookieName)) {
