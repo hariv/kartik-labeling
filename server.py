@@ -120,6 +120,12 @@ class StaticServer(BaseHTTPRequestHandler):
 
                     self.send_content_headers(self.mime_type_map[resource_extension])
                     return html_content
+                
+                elif "main.js" in path:
+                    # Hacky again
+                    js_content = self.read_file(os.path.join(self.assets_path, self.js_path, self.main_js_name))
+                    self.send_content_headers(self.mime_type_map[".js"])
+                    return js_content
 
                 self.send_content_headers(self.mime_type_map[resource_extension])
                 return self.read_file(resource_file)
