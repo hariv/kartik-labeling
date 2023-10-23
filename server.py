@@ -31,6 +31,7 @@ class StaticServer(BaseHTTPRequestHandler):
         self.kartik_count_cookie_str = "kartikCounterCookie"
         self.student_id_str = "Student-Id"
         self.label_str = "label"
+        self.pair_id_str = "pairId"
         self.image_one_name_str = "imageOneName"
         self.image_two_name_str = "imageTwoName"
         self.versions_file = "versions.txt"
@@ -157,23 +158,20 @@ class StaticServer(BaseHTTPRequestHandler):
 
     def extract_post_data(self, post_data):
         label = None
-        image_one_name = None
-        image_two_name = None
-        post_data_pairs = post_data.split("&")
+        pair_id = None
 
+        post_data_pairs = post_data.split("&")
+        
         for data_pair in post_data_pairs:
             param_val = data_pair.split("=")
-
+            
             if param_val[0] == self.label_str:
                 label = param_val[1]
 
-            elif param_val[0] == self.image_one_name_str:
-                image_one_name = param_val[1].replace("%2F", "/")
+            elif param_val[0] == self.pair_id_str:
+                pair_id = param_val[2]
 
-            elif param_val[0] == self.image_two_name_str:
-                image_two_name = param_val[1].replace("%2F", "/")
-
-        return label, image_one_name, image_two_name
+        return label, pair_id
 
     def get_count_from_cookie(self, req_headers, target_cookie_name):
         header_list = req_headers.split("\n")
@@ -206,11 +204,11 @@ class StaticServer(BaseHTTPRequestHandler):
         content_length = int(self.headers["Content-Length"])
         post_data = self.rfile.read(content_length).decode("utf-8");
         base_path = '/'.join(self.path.split('/')[:-2])
-        #label, pair_id = self.extract_post_data(post_data)
+        
         request_counter = self.get_count_from_cookie(str(self.headers), self.kartik_count_cookie_str)
         request_user = self.path.split('/')[-1]
         request_version = self.path.split('/')[-2]
-        
+
         print("post data")
         print(post_data)
         print("request counter")
@@ -219,11 +217,12 @@ class StaticServer(BaseHTTPRequestHandler):
         print(request_user)
         print("request version")
         print(request_version)
-        
+
+        label, pair_id = self.extract_post_data(post_data)
         pair_label_helper = PairLabel()
+        
         if label and pair_id and request_user:
             pair_label_helper.add_label(label, pair_id, request_user)
-        
         pair_label_helper.close_connection()
         
         content = self.fetch_static_content(base_path, request_version, request_user, request_counter)

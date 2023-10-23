@@ -6,10 +6,10 @@ class PairLabel:
         self.db_url = os.environ["DATABASE_URL"]
         self.conn = psycopg2.connect(self.db_url, sslmode="require")
 
-    def add_label(self, image_one_name, image_two_name, label, labeler):
-        add_label_query = """INSERT INTO public.pair_labels (img_pair, label, labeler, req_ts) VALUES (%s, %s, %s, CURRENT_TIMESTAMP(5))"""
+    def add_label(self, label, pair_id, labeler);
+        add_label_query = """INSERT INTO public.labels (pair_id, score, user_string, req_ts) VALUES (%s, %s, %s, CURRENT_TIMESTAMP(5))"""
         cursor = self.conn.cursor()
-        cursor.execute(add_label_query, (image_one_name + "," + image_two_name, label, labeler))
+        cursor.execute(add_label_query, (pair_id, label, labeler))
         self.conn.commit()
         cursor.close()
 
