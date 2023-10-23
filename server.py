@@ -22,6 +22,7 @@ class StaticServer(BaseHTTPRequestHandler):
         self.assets_path = "assets"
         self.imgs_path = "imgs"
         self.js_path = "js"
+        self.main_js_name = "main.js"
         self.imgs_list = os.listdir(os.path.join(self.assets_path, self.imgs_path))
         self.img_1_placeholder = "img1PlaceHolder.jpg"
         self.img_2_placeholder = "img2PlaceHolder.jpg"
