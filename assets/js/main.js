@@ -37,19 +37,12 @@ function preSubmit() {
 	return false;
     
     var currentCount = getCookie(cookieName);
-    console.log("current count");
-    console.log(currentCount);
     
     if (!currentCount) {
-	console.log("not current count");
-	console.log("setting 1");
 	setCookie(1);
     }
     else {
-	console.log("yes current count");
-	console.log("incrementing to");
-	console.log(parseInt(currentCount) + 1);
 	setCookie(parseInt(currentCount) + 1);
     }
-    return false;
+    return true;
 }
