@@ -237,14 +237,18 @@ class StaticServer(BaseHTTPRequestHandler):
                 self.end_headers()
                 self.wfile.write("You should look at the response headers".encode())
         else:
-            print(self.path)
-            request_user = self.path.split('/')[-1]
-            request_version = self.path.split('/')[-2]
-            base_path = '/'.join(self.path.split('/')[:-2])
-            request_counter = self.get_count_from_cookie(str(self.headers), self.kartik_count_cookie_str)
-            
-            content = self.fetch_static_content(base_path, request_version, request_user, request_counter)
-            self.wfile.write(bytes(content, encoding="utf8"))
+            if self.path == "/main.js":
+                # hacky
+                self.path = "/home/js/main.js/hzoK4PdUsc/SO7m1jbMJI"
+            else:
+                print(self.path)
+                request_user = self.path.split('/')[-1]
+                request_version = self.path.split('/')[-2]
+                base_path = '/'.join(self.path.split('/')[:-2])
+                request_counter = self.get_count_from_cookie(str(self.headers), self.kartik_count_cookie_str)
+                
+                content = self.fetch_static_content(base_path, request_version, request_user, request_counter)
+                self.wfile.write(bytes(content, encoding="utf8"))
                 
 if __name__ == "__main__":
     if len(sys.argv) == 2:
