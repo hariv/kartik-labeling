@@ -237,6 +237,7 @@ class StaticServer(BaseHTTPRequestHandler):
                 self.end_headers()
                 self.wfile.write("You should look at the response headers".encode())
         else:
+            print(self.path)
             request_user = self.path.split('/')[-1]
             request_version = self.path.split('/')[-2]
             base_path = '/'.join(self.path.split('/')[:-2])
