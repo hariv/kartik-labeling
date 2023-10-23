@@ -1,4 +1,4 @@
-const cookieName = "TypeError: not all arguments converted during string formatting";
+const cookieName = "kartikCounterCookie";
 const imageOneId = "imageOne";
 const imageTwoId = "imageTwo";
 const formDivId = "formDiv";
