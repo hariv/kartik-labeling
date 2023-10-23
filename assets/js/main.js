@@ -34,6 +34,7 @@ function preSubmit() {
     var label = document.getElementById(labelField).value;
     if (label > 10 || label < 0)
 	return false;
+    
     var currentCount = getCookie(cookieName);
     console.log("current count");
     console.log(currentCount);
@@ -49,5 +50,5 @@ function preSubmit() {
 	console.log(parseInt(currentCount) + 1);
 	setCookie(parseInt(currentCount) + 1);
     }
-    return True;
+    return false;
 }
