@@ -97,6 +97,7 @@ class StaticServer(BaseHTTPRequestHandler):
         if version in self.versions_list and user in self.users_list:
             print("valid")
             resource_file = os.path.join(self.assets_path, path[1:])
+            print(resource_file)
             _, resource_extension = os.path.splitext(resource_file)
         
             if os.path.exists(resource_file) and os.path.isfile(resource_file):
