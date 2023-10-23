@@ -22,7 +22,8 @@ if (!getCookie(cookieName)) {
 }
 
 window.onload = function() {
-    console.log(document.cookie);
+    console.log(getCookie(cookie_name));
+    //console.log(document.cookie);
     /*var imageOneSrc = document.getElementById(imageOneId).src;
     var imageTwoSrc = document.getElementById(imageTwoId).src;
 

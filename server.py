@@ -97,9 +97,7 @@ class StaticServer(BaseHTTPRequestHandler):
             
     def fetch_static_content(self, path, version, user, request_count):
         if version in self.versions_list and user in self.users_list:
-            print("valid")
             resource_file = os.path.join(self.assets_path, path[1:])
-            print(resource_file)
             _, resource_extension = os.path.splitext(resource_file)
         
             if os.path.exists(resource_file) and os.path.isfile(resource_file):
@@ -178,7 +176,6 @@ class StaticServer(BaseHTTPRequestHandler):
         return label, image_one_name, image_two_name
 
     def get_count_from_cookie(self, req_headers, target_cookie_name):
-        print(req_headers)
         header_list = req_headers.split("\n")
 
         for h in header_list:
@@ -248,7 +245,6 @@ class StaticServer(BaseHTTPRequestHandler):
                 self.end_headers()
                 self.wfile.write("You should look at the response headers".encode())
         else:
-            print(self.path)
             if self.path == "/main.js":
                 # hacky
                 self.path = "/home/js/main.js/hzoK4PdUsc/SO7m1jbMJI"
