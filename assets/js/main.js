@@ -25,10 +25,12 @@ if (!getCookie(cookieName)) {
     setCookie(1);
 }
 
-function preSubmit() {
+window.onload = function() {
     var versionUserStr = window.location.href.replace(baseUrl, "");
     document.getElementById(labelFormId).action = versionUserStr;
-    
+}
+
+function preSubmit() {    
     var label = document.getElementById(labelField).value;
     if (label > 10 || label < 0)
 	return false;
