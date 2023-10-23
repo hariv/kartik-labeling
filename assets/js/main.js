@@ -1,4 +1,4 @@
-const cookieName = "kartikCookie";
+const cookieName = "TypeError: not all arguments converted during string formatting";
 const imageOneId = "imageOne";
 const imageTwoId = "imageTwo";
 const formDivId = "formDiv";
@@ -12,16 +12,18 @@ function getCookie(name) {
     return match ? match[1] : null;
 }
 
-/* if (!getCookie(cookieName)) {
+if (!getCookie(cookieName)) {
     var now = new Date();
     var time = now.getTime();
     var expireTime = time + 3000000*3600;
     now.setTime(expireTime);
-    document.cookie = cookieName + "=" + Math.floor(Math.random() * 1000000000) + ";expires=" + now.toUTCString() + ";path=/";
-}*/
+    document.cookie = cookieName + "=1;expires=" + now.toUTCString() + ";path=/";
+    //document.cookie = cookieName + "=" + Math.floor(Math.random() * 1000000000) + ";expires=" + now.toUTCString() + ";path=/";
+}
 
 window.onload = function() {
-    var imageOneSrc = document.getElementById(imageOneId).src;
+    console.log(document.cookie);
+    /*var imageOneSrc = document.getElementById(imageOneId).src;
     var imageTwoSrc = document.getElementById(imageTwoId).src;
 
     imageOneSrc = imageOneSrc.replace(baseUrl, "");
@@ -38,5 +40,5 @@ window.onload = function() {
     hiddenInputTwo.setAttribute("value", imageTwoSrc);
     
     document.getElementById(formDivId).appendChild(hiddenInputOne);
-    document.getElementById(formDivId).appendChild(hiddenInputTwo);
+    document.getElementById(formDivId).appendChild(hiddenInputTwo);*/
 }

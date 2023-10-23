@@ -26,7 +26,7 @@ class StaticServer(BaseHTTPRequestHandler):
         self.img_2_placeholder = "img2PlaceHolder.jpg"
         self.pair_id_placeholder = "pairIdPlaceHolder"
         self.cookie_str = "Cookie"
-        self.kartik_cookie_count_str = "kartikCookieCounter"
+        self.kartik_count_cookie_str = "kartikCounterCookie"
         self.student_id_str = "Student-Id"
         self.label_str = "label"
         self.image_one_name_str = "imageOneName"
@@ -196,7 +196,7 @@ class StaticServer(BaseHTTPRequestHandler):
         post_data = self.rfile.read(content_length).decode("utf-8");
         base_path = '/'.join(self.path.split('/')[:-2])
         label, pair_id = self.extract_post_data(post_data)
-        request_counter = self.get_count_from_cookie(str(self.headers), self.kartik_cookie_count_str)
+        request_counter = self.get_count_from_cookie(str(self.headers), self.kartik_count_cookie_str)
         request_user = self.path.split('/')[-1]
         request_version = self.path.split('/')[-2]
         
@@ -237,7 +237,7 @@ class StaticServer(BaseHTTPRequestHandler):
             request_user = self.path.split('/')[-1]
             request_version = self.path.split('/')[-2]
             base_path = '/'.join(self.path.split('/')[:-2])
-            request_counter = self.get_count_from_cookie(str(self.headers), self.kartik_cookie_count_str)
+            request_counter = self.get_count_from_cookie(str(self.headers), self.kartik_count_cookie_str)
             
             content = self.fetch_static_content(base_path, request_version, request_user, request_counter)
             self.wfile.write(bytes(content, encoding="utf8"))
