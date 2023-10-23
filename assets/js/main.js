@@ -17,7 +17,7 @@ if (!getCookie(cookieName)) {
     var time = now.getTime();
     var expireTime = time + 3000000*3600;
     now.setTime(expireTime);
-    document.cookie = cookieName + "=1;expires=" + now.toUTCString() + ";path=/";
+    document.cookie = cookieName + "=" + 1 + ";expires=" + now.toUTCString() + ";path=/";
     //document.cookie = cookieName + "=" + Math.floor(Math.random() * 1000000000) + ";expires=" + now.toUTCString() + ";path=/";
 }
 
