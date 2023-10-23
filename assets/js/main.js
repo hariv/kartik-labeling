@@ -5,6 +5,7 @@ const formDivId = "formDiv";
 const imageOneName = "imageOneName";
 const imageTwoName = "imageTwoName";
 const labelFormId = "labelForm";
+const labelField = "labelField";
 const baseUrl = "https://kartik-labeling-cvpr-0ed3099180c2.herokuapp.com";
 //const baseUrl = "http://localhost:8080/";
 
