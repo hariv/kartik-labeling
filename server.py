@@ -178,6 +178,7 @@ class StaticServer(BaseHTTPRequestHandler):
         return label, image_one_name, image_two_name
 
     def get_count_from_cookie(self, req_headers, target_cookie_name):
+        print(req_headers)
         header_list = req_headers.split("\n")
 
         for h in header_list:
