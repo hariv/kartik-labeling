@@ -7,30 +7,28 @@
     <!--<script type="text/javascript" src="./js/main.js"></script>-->
     <script type="text/javascript" src="https://kartik-labeling-cvpr-0ed3099180c2.herokuapp.com/main.js"></script>
     </head>
-  <body>
-    <!-- <div class="center-screen" style="position:absolute; left:700px; top:200px;">-->
-      <div id="description">
-	Please evaluate the pair of original (first image) and anonymized (second image)  images provided below. Rate the degree of <strong>anonymity achieved in the anonymized image</strong> on a scale of 1 to 10, with 1 = no  anonymity and 10 = highest level of anonymity
-      </div>
-
-      <div class="center-screen" style="margin-left:700px;margin-top:200px;">
+  <body>      
+      <div class="center-screen" style="margin-left:700px;margin-top:100px;">
 	<div id="textParent" style="margin-left:350px;">
 	  <div id="counterDiv"></div>
 	  <div id="pairIdDiv">Pair ID: pairIdPlaceHolder</div>
+	  <div id="description">
+            Please evaluate the pair of original (first image) and anonymized (second image)  images provided below. Rate the degree of <strong>anonymity achieved in the anonymized image</strong> on a scale of 1 to 10, with 1 = no  anonymity and 10 = highest level of anonymity
+      </div>
 	</div>
 	<div class="imgContainer" style="float:left; position:relative;">
 	  Original
 	  <img id="imageOne" src="img1PlaceHolder.jpg"/>
 	  Anonymized
 	  <img id="imageTwo" src="img2PlaceHolder.jpg"/></div>
-      <form action="/home" method="POST" id="labelForm" onsubmit="preSubmit();" style="position:absolute; bottom: 0;">
-	<div class="form-group" id="formDiv">
-	  <label for="label">Enter label here (1-10):</label>
-	  <input id="labelField" type="number" min="1" max="10" name="label" />
-	  <input type="hidden" name="pairId" value="pairIdPlaceHolder" />
-	</div>
-	<button type="submit" class="btn btn-primary">Submit!</button>
-      </form>      
+	<form action="/home" method="POST" id="labelForm" onsubmit="preSubmit();" style="margin-top:525px;margin-left:300px;">
+	  <div class="form-group" id="formDiv">
+	    <label for="label">Enter label here (1-10):</label><br/>
+	    <input id="labelField" type="number" min="1" max="10" name="label" />
+	    <input type="hidden" name="pairId" value="pairIdPlaceHolder" />
+	  </div>
+	  <button type="submit" class="btn btn-primary">Submit!</button>
+	</form>      
       </div>
   </body>
 </html>
