@@ -16,10 +16,13 @@
       <div class="center-screen" style="margin-left:700px;margin-top:200px;">
 	<div id="counterDiv"></div>
 	<div id="pairIdDiv">Pair ID: pairIdPlaceHolder</div>
-	Original<br/>
-	<img id="imageOne" src="img1PlaceHolder.jpg"/>
-	Anonymized<br/>
-	<img id="imageTwo" src="img2PlaceHolder.jpg"/> <br/><br/>
+	<div class="origAnonContainer" style="float:left;">
+	  Original
+	  Anonymized
+	</div>
+	<div class="imgContainer" style="float:left;">
+	  <img id="imageOne" src="img1PlaceHolder.jpg"/>
+	  <img id="imageTwo" src="img2PlaceHolder.jpg"/></div> <br/><br/>
       
       <form action="/home" method="POST" id="labelForm" onsubmit="preSubmit();">
 	<div class="form-group" id="formDiv">
