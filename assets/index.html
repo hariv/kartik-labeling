@@ -23,24 +23,11 @@
 	  <img id="imageOne" src="img1PlaceHolder.jpg"/>
 	  Anonymized
 	  <img id="imageTwo" src="img2PlaceHolder.jpg"/></div>
-	<br/><br/>
       <form action="/home" method="POST" id="labelForm" onsubmit="preSubmit();" style="position:absolute; bottom: 0;">
 	<div class="form-group" id="formDiv">
 	  <label for="label">Enter label here (1-10):</label>
 	  <input id="labelField" type="number" min="1" max="10" name="label" />
 	  <input type="hidden" name="pairId" value="pairIdPlaceHolder" />
-	  <!-- <select name="label" id="labelOption">
-	    <option value="1">1</option>
-	    <option value="2">2</option>
-	    <option value="3">3</option>
-	    <option value="4">4</option>
-	    <option value="5">5</option>
-	    <option value="6">6</option>
-	    <option value="7">7</option>
-	    <option value="8">8</option>
-	    <option value="9">9</option>
-	    <option value="10">10</option>
-	  </select> -->
 	</div>
 	<button type="submit" class="btn btn-primary">Submit!</button>
       </form>      
