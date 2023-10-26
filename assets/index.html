@@ -20,13 +20,13 @@
 	  Original
 	  Anonymized
 	</div> <br/>
-	<div class="imgContainer" style="float:left;">
+	<div class="imgContainer" style="float:left; position:relative;">
 	  <img id="imageOne" src="img1PlaceHolder.jpg"/>
 	  <img id="imageTwo" src="img2PlaceHolder.jpg"/></div>
 	<br/><br/>
 	<div></div>
 	<div></div>
-      <form action="/home" method="POST" id="labelForm" onsubmit="preSubmit();">
+      <form action="/home" method="POST" id="labelForm" onsubmit="preSubmit();" style="position:absolute; bottom: 0;">
 	<div class="form-group" id="formDiv">
 	  <label for="label">Enter label here (1-10):</label>
 	  <input id="labelField" type="number" min="1" max="10" name="label" />
