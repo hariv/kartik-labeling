@@ -27,10 +27,26 @@ if (!getCookie(cookieName)) {
     setCookie(1);
 }
 
+function resizeImage(img) {
+    if (img.width > 500) {
+	var aspectRatio = img.width / img.height;
+	img.width = 500;
+	img.height = 500 / aspectRatio;
+    }
+
+    if (img.height > 500) {
+	var aspectRatio = img.width / img.height;
+	img.height = 500;
+	img.width = 500 * aspectRatio
+    }
+}
 window.onload = function() {
     var versionUserStr = window.location.href.replace(baseUrl, "");
     document.getElementById(labelFormId).action = versionUserStr;
     document.getElementById(counterDiv).innerHTML = getCookie(cookieName) + "/500 done";
+
+    resizeImage(document.getElementById(imageOneId));
+    resizeImage(document.getElementById(imageTwoId));
 }
 
 function preSubmit() {    
