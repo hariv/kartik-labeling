@@ -30,7 +30,7 @@ if (!getCookie(cookieName)) {
 window.onload = function() {
     var versionUserStr = window.location.href.replace(baseUrl, "");
     document.getElementById(labelFormId).action = versionUserStr;
-    document.getElementById(counterDiv).innerhtml = getCookie(cookieName) + "/500 done";
+    document.getElementById(counterDiv).innerHTML = getCookie(cookieName) + "/500 done";
 }
 
 function preSubmit() {    
