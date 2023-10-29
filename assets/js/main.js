@@ -27,6 +27,11 @@ if (!getCookie(cookieName)) {
     setCookie(1);
 }
 
+const versionCountMap = {
+    "/hzVGodRyhB": "3000",
+    "/cpmKQMWnB0": "2500"
+}
+
 function resizeImage(img) {
     if (img.width > 500) {
 	var aspectRatio = img.width / img.height;
@@ -42,8 +47,14 @@ function resizeImage(img) {
 }
 window.onload = function() {
     var versionUserStr = window.location.href.replace(baseUrl, "");
+    var totalCount = "500";
     document.getElementById(labelFormId).action = versionUserStr;
-    document.getElementById(counterDiv).innerHTML = getCookie(cookieName) + "/500 done";
+
+    
+    if (versionUserStr in versionCountMap) {
+	totalCount = versionCountMap[versionUserStr];
+    }
+    document.getElementById(counterDiv).innerHTML = getCookie(cookieName) + "/" + totalCount " done";
 
     resizeImage(document.getElementById(imageOneId));
     resizeImage(document.getElementById(imageTwoId));
