@@ -52,7 +52,7 @@ window.onload = function() {
 
     //console.log(versionCountMap);
     //console.log(versionUserStr);
-    var versionStr = versionUserStr.split("/")[1];
+    var versionStr = versionUserStr.split("/")[2];
 
     console.log(versionStr);
     console.log(versionCountMap);
