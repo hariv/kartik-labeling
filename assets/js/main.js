@@ -54,7 +54,7 @@ window.onload = function() {
     if (versionUserStr in versionCountMap) {
 	totalCount = versionCountMap[versionUserStr];
     }
-    document.getElementById(counterDiv).innerHTML = getCookie(cookieName) + "/" + totalCount " done";
+    document.getElementById(counterDiv).innerHTML = getCookie(cookieName) + "/" + totalCount + " done";
 
     resizeImage(document.getElementById(imageOneId));
     resizeImage(document.getElementById(imageTwoId));
