@@ -50,7 +50,8 @@ window.onload = function() {
     var totalCount = "500";
     document.getElementById(labelFormId).action = versionUserStr;
 
-    
+    console.log(versionCountMap);
+    console.log(versionUserStr);
     if (versionUserStr in versionCountMap) {
 	totalCount = versionCountMap[versionUserStr];
     }
