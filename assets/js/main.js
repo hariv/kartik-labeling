@@ -28,8 +28,8 @@ if (!getCookie(cookieName)) {
 }
 
 const versionCountMap = {
-    "/hzVGodRyhB": "3000",
-    "/cpmKQMWnB0": "2500"
+    "hzVGodRyhB": "3000",
+    "cpmKQMWnB0": "2500"
 }
 
 function resizeImage(img) {
@@ -52,8 +52,10 @@ window.onload = function() {
 
     console.log(versionCountMap);
     console.log(versionUserStr);
-    if (versionUserStr in versionCountMap) {
-	totalCount = versionCountMap[versionUserStr];
+    var versionStr = versionUserStr.split("/")[1];
+    
+    if (versionStr in versionCountMap) {
+	totalCount = versionCountMap[versionStr];
     }
     document.getElementById(counterDiv).innerHTML = getCookie(cookieName) + "/" + totalCount + " done";
 
