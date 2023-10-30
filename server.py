@@ -104,6 +104,9 @@ class StaticServer(BaseHTTPRequestHandler):
                 return self.read_file(image_file, binary=True)
             
     def fetch_static_content(self, path, version, user, request_count):
+        print("fetch static content")
+        print(request_count)
+        
         if version in self.versions_list and user in self.users_list:
             resource_file = os.path.join(self.assets_path, path[1:])
             _, resource_extension = os.path.splitext(resource_file)
