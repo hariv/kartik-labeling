@@ -28,15 +28,17 @@ class StaticServer(BaseHTTPRequestHandler):
         self.img_2_placeholder = "img2PlaceHolder.jpg"
         self.pair_id_placeholder = "pairIdPlaceHolder"
         self.cookie_str = "Cookie"
-        self.kartik_count_cookie_str = "kartikCounterCookie"
+        #self.kartik_count_cookie_str = "kartikCounterCookie"
         self.student_id_str = "Student-Id"
         self.label_str = "label"
         self.pair_id_str = "pairId"
         self.image_one_name_str = "imageOneName"
         self.image_two_name_str = "imageTwoName"
         self.versions_file = "versions.txt"
+        self.version_cookie_file = "version_cookie_map.json"
         self.users_file = "users.txt"
         self.shift = 3
+        self.init_kartik_cookie_map()
         self.init_mime_type_map()
         self.load_versions_list()
         self.load_users_list()
@@ -46,7 +48,12 @@ class StaticServer(BaseHTTPRequestHandler):
         with open(list_file) as f:
             d = f.read().splitlines()
         return d
-    
+
+    def init_kartik_cookie_map(self):
+        with open(self.version_cookie_file) as f:
+            d = json.loads(f.read())
+        self.version_cookie_map = d
+        
     def load_versions_list(self):
         self.versions_list = self.load_list(self.versions_file)
 
@@ -205,9 +212,11 @@ class StaticServer(BaseHTTPRequestHandler):
         post_data = self.rfile.read(content_length).decode("utf-8");
         base_path = '/'.join(self.path.split('/')[:-2])
         
-        request_counter = self.get_count_from_cookie(str(self.headers), self.kartik_count_cookie_str)
+        #request_counter = self.get_count_from_cookie(str(self.headers), self.kartik_count_cookie_str)
         request_user = self.path.split('/')[-1]
         request_version = self.path.split('/')[-2]
+
+        request_counter = self.get_count_from_cookie(str(self.headers), self.version_cookie_map[request_version])
 
         print("post data")
         print(post_data)
@@ -260,7 +269,8 @@ class StaticServer(BaseHTTPRequestHandler):
             request_user = self.path.split('/')[-1]
             request_version = self.path.split('/')[-2]
             base_path = '/'.join(self.path.split('/')[:-2])
-            request_counter = self.get_count_from_cookie(str(self.headers), self.kartik_count_cookie_str)
+            #request_counter = self.get_count_from_cookie(str(self.headers), self.kartik_count_cookie_str)
+            request_counter = self.get_count_from_cookie(str(self.headers), self.version_cookie_map[request_version])
             
             content = self.fetch_static_content(base_path, request_version, request_user, request_counter)
             self.wfile.write(bytes(content, encoding="utf8"))
