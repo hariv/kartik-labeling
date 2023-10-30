@@ -81,14 +81,17 @@ function preSubmit() {
     var label = document.getElementById(labelField).value;
     if (label > 10 || label < 0)
 	return false;
+
+    var versionUserStr = window.location.href.replace(baseUrl, "");
+    var versionStr = versionUserStr.split("/")[2];
     
-    var currentCount = getCookie(cookieName);
+    var currentCount = getCookie(versionCookieMap[versionStr]);
     
     if (!currentCount) {
-	setCookie(1);
+	setCookie(versionCookieMap[versionStr], 1);
     }
     else {
-	setCookie(parseInt(currentCount) + 1);
+	setCookie(versionCookieMap[versionStr], parseInt(currentCount) + 1);
     }
     return true;
 }
