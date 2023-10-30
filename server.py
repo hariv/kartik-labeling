@@ -214,11 +214,12 @@ class StaticServer(BaseHTTPRequestHandler):
 
         print("path")
         print(self.path)
-        #request_counter = self.get_count_from_cookie(str(self.headers), self.kartik_count_cookie_str)
+        
         request_user = self.path.split('/')[-1]
         request_version = self.path.split('/')[-2]
 
-        request_counter = self.get_count_from_cookie(str(self.headers), self.version_cookie_map[request_version])
+        cookie_name = self.version_cookie_map[request_version] if request_version in self.version_cookie_map else ""
+        request_counter = self.get_count_from_cookie(str(self.headers), cookie_name)
 
         print("post data")
         print(post_data)
@@ -271,8 +272,8 @@ class StaticServer(BaseHTTPRequestHandler):
             request_user = self.path.split('/')[-1]
             request_version = self.path.split('/')[-2]
             base_path = '/'.join(self.path.split('/')[:-2])
-            #request_counter = self.get_count_from_cookie(str(self.headers), self.kartik_count_cookie_str)
-            request_counter = self.get_count_from_cookie(str(self.headers), self.version_cookie_map[request_version])
+            cookie_name = self.version_cookie_map[request_version] if request_version in self.version_cookie_map else ""
+            request_counter = self.get_count_from_cookie(str(self.headers), cookie_name)
             
             content = self.fetch_static_content(base_path, request_version, request_user, request_counter)
             self.wfile.write(bytes(content, encoding="utf8"))
