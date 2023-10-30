@@ -1,4 +1,4 @@
-const cookieName = "kartikCounterCookie";
+//const cookieName = "kartikCounterCookie";
 const imageOneId = "imageOne";
 const imageTwoId = "imageTwo";
 const formDivId = "formDiv";
@@ -10,12 +10,22 @@ const baseUrl = "https://kartik-labeling-cvpr-0ed3099180c2.herokuapp.com";
 const counterDiv = "counterDiv";
 //const baseUrl = "http://localhost:8080/";
 
+const versionCountMap = {
+    "hzVGodRyhB": "3000",
+    "cpmKQMWnB0": "2500"
+}
+
+const versionCookieMap = {
+    "hzVGodRyhB": "kartikCounterCookieV3";
+    "cpmKQMWnB0": "kartikCounterCookieV4";
+}
+
 function getCookie(name) {
     var match = document.cookie.match(RegExp('(?:^|;\\s*)' + name + '=([^;]*)'));
     return match ? match[1] : null;
 }
 
-function setCookie(val) {
+function setCookie(cookieName, val) {
     var now = new Date();
     var time = now.getTime();
     var expireTime = time + 3000000*3600;
@@ -25,11 +35,6 @@ function setCookie(val) {
 
 if (!getCookie(cookieName)) {
     setCookie(1);
-}
-
-const versionCountMap = {
-    "hzVGodRyhB": "3000",
-    "cpmKQMWnB0": "2500"
 }
 
 function resizeImage(img) {
@@ -50,17 +55,24 @@ window.onload = function() {
     var totalCount = "500";
     document.getElementById(labelFormId).action = versionUserStr;
 
-    //console.log(versionCountMap);
-    //console.log(versionUserStr);
     var versionStr = versionUserStr.split("/")[2];
 
-    console.log(versionStr);
-    console.log(versionCountMap);
     if (versionStr in versionCountMap) {
+	// If this exists, then the cookie map should also exit
 	totalCount = versionCountMap[versionStr];
+	if (!getCookie(versionCookieMap[versionStr])) {
+	    setCookie(versionCookieMap[versionStr], 1);
+	}
     }
-    document.getElementById(counterDiv).innerHTML = getCookie(cookieName) + "/" + totalCount + " done";
 
+    if (getCookie(versionCookieMap[versionStr])) {
+	document.getElementById(counterDiv).innerHTML = getCookie(versionCookieMap[versionStr]) + "/" + totalCount + " done";
+    }
+    else {
+	document.getElementById(counterDiv).innerHTML = "1/" + totalCount + " done";
+    }
+
+    
     resizeImage(document.getElementById(imageOneId));
     resizeImage(document.getElementById(imageTwoId));
 }
