@@ -184,6 +184,8 @@ class StaticServer(BaseHTTPRequestHandler):
         return label, pair_id
 
     def get_count_from_cookie(self, req_headers, target_cookie_name):
+        print("target cookie name")
+        print(target_cookie_name)
         header_list = req_headers.split("\n")
 
         for h in header_list:
@@ -222,6 +224,9 @@ class StaticServer(BaseHTTPRequestHandler):
         request_version = self.path.split('/')[-2]
 
         cookie_name = self.version_cookie_map[request_version] if request_version in self.version_cookie_map else ""
+        print("cookie name")
+        print(cookie_name)
+        
         request_counter = self.get_count_from_cookie(str(self.headers), cookie_name)
 
         print("post data")
