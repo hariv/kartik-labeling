@@ -16,8 +16,8 @@ const versionCountMap = {
 }
 
 const versionCookieMap = {
-    "hzVGodRyhB": "kartikCounterCookieV3";
-    "cpmKQMWnB0": "kartikCounterCookieV4";
+    "hzVGodRyhB": "kartikCounterCookieV3",
+    "cpmKQMWnB0": "kartikCounterCookieV4"
 }
 
 function getCookie(name) {
@@ -33,9 +33,9 @@ function setCookie(cookieName, val) {
     document.cookie = cookieName + "=" + val + ";expires=" + now.toUTCString() + ";path=/";
 }
 
-if (!getCookie(cookieName)) {
-    setCookie(1);
-}
+//if (!getCookie(cookieName)) {
+//    setCookie(1);
+//}
 
 function resizeImage(img) {
     if (img.width > 500) {
