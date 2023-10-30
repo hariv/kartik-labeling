@@ -82,6 +82,8 @@ function preSubmit() {
     if (label > 10 || label < 0)
 	return false;
 
+    if (label == "")
+	return false;
     var versionUserStr = window.location.href.replace(baseUrl, "");
     var versionStr = versionUserStr.split("/")[2];
     
