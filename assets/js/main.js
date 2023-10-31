@@ -66,8 +66,10 @@ function resizeImage(img) {
 window.onload = function() {
     var label = document.getElementById(labelField).value;
     
-    if (label != "")
+    if (label != "") {
+	alert("You have accidentally pressed the back button. Please hit the refresh button again to proceed.");
 	window.location.reload();
+    }
     
     var versionUserStr = window.location.href.replace(baseUrl, "");
     var totalCount = "500";
