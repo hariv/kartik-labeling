@@ -4,6 +4,7 @@ const formDivId = "formDiv";
 const imageOneName = "imageOneName";
 const imageTwoName = "imageTwoName";
 const pairIdDiv = "pairIdDiv";
+const counterDiv = "counterDiv";
 const labelField = "labelField";
 const hiddenPairId = "hiddenPairId";
 const baseUrl = "https://kartik-labeling-cvpr-0ed3099180c2.herokuapp.com";
@@ -27,20 +28,34 @@ const versionCookieMap = {
 function sendData(data, endpoint) {
     var xmlhttp = new XMLHttpRequest();
     xmlhttp.onreadystatechange = function() {
-	console.log("readystatechange");
-	console.log("state");
-	console.log(xmlhttp.readyState);
-	console.log("status");
-	console.log(xmlhttp.status);
 	if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-	    console.log("received response");
 	    var response = xmlhttp.responseText;
 	    var responseObject = JSON.parse(response);
-	    console.log(responseObject);
+	    
+	    var versionUserStr = window.location.href.replace(baseUrl, "");
+	    var versionStr = versionUserStr.split("/")[2];
+	    var totalCount = "500";
+
+	    if (versionStr in versionCountMap) {
+		// If this exists, then the cookie map should also exit
+		totalCount = versionCountMap[versionStr];
+		
+		if (!getCookie(versionCookieMap[versionStr])) {
+		    setCookie(versionCookieMap[versionStr], 1);
+		}
+	    }
+	    
 	    document.getElementById(imageOneId).src = responseObject.img_1_b64;
 	    document.getElementById(imageTwoId).src = responseObject.img_2_b64;
 	    document.getElementById(pairIdDiv).innerHTML = "Pair ID: " + responseObject.pair_id;
 	    document.getElementById(hiddenPairId).value = responseObject.pair_id;
+	    
+	    if (getCookie(versionCookieMap[versionStr])) {
+		document.getElementById(counterDiv).innerHTML = getCookie(versionCookieMap[versionStr]) + "/" + totalCount + " done";
+	    }
+	    else {
+		document.getElementById(counterDiv).innerHTML = "1/" + totalCount + " done";
+	    }
 	    resizeImage(document.getElementById(imageOneId));
 	    resizeImage(document.getElementById(imageTwoId));
 	}
