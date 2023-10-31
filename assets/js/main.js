@@ -28,8 +28,10 @@ function sendData(data, endpoint) {
     var xmlhttp = new XMLHttpRequest();
     xmlhttp.onreadystatechange = function() {
 	if (this.readyState == 4 && this.state == 200) {
+	    console.log("received response");
 	    var response = xmlhttp.responseText;
 	    var responseObject = JSON.parse(response);
+	    console.log(responseObject);
 	    document.getElementById(imageOneId).src = responseObject.img_1_b64;
 	    document.getElementById(imageTwoId).src = responseObject.img_2_b64;
 	    document.getElementById(pairIdDiv).innerHTML = "Pair ID: " + responseObject.pair_id;
