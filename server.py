@@ -244,7 +244,9 @@ class StaticServer(BaseHTTPRequestHandler):
         print("request version")
         print(request_version)
 
-        label, pair_id = self.extract_post_data(post_data)
+        #label, pair_id = self.extract_post_data(post_data)
+        label = post_data["label"]
+        pair_id = post_data["pairId"]
         pair_label_helper = PairLabel()
 
         print(label)
