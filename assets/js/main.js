@@ -63,9 +63,13 @@ function resizeImage(img) {
 //    alert("Back/Forward clicked!");
 //}
 
-window.addEventListener('popstate', function (event) {
-    alert("fuck otu");
-});
+//window.addEventListener('popstate', function (event) {
+//    alert("fuck otu");
+//});
+
+window.onpopstate = (e) => {
+    alert("sdfsf");
+};
 
 window.onload = function() {
     var label = document.getElementById(labelField).value;
