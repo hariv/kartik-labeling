@@ -63,12 +63,8 @@ function resizeImage(img) {
 //    alert("Back/Forward clicked!");
 //}
 
-window.addEventListener('popstate', function(event) {
-    if (event.state) {
-        // The back button was pressed
-        console.log('Back button pressed');
-        // Your custom logic here
-    }
+window.addEventListener('popstate', function (event) {
+    alert("fuck otu");
 });
 
 window.onload = function() {
