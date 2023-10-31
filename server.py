@@ -241,7 +241,10 @@ class StaticServer(BaseHTTPRequestHandler):
         pair_label_helper = PairLabel()
         
         if label and pair_id and request_user:
+            print("all 3 present")
             pair_label_helper.add_label(label, pair_id, request_user)
+        else:
+            print("something missing")
         pair_label_helper.close_connection()
         
         pair_helper = PairHelper(request_version)
