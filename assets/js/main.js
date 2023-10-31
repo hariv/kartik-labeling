@@ -52,6 +52,11 @@ function resizeImage(img) {
 	img.width = 500 * aspectRatio
     }
 }
+
+window.onhashchange = function() {
+    alert("You've accidentally pressed the back button. Don't do that.");
+}
+
 window.onload = function() {
     var versionUserStr = window.location.href.replace(baseUrl, "");
     var totalCount = "500";
@@ -87,6 +92,7 @@ function preSubmit(e) {
     }
 
     if (label == "") {
+	alert("Please enter a label");
 	e.preventDefault();
 	return false;
     }
