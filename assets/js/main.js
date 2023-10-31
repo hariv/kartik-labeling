@@ -13,13 +13,15 @@ const counterDiv = "counterDiv";
 const versionCountMap = {
     "hzVGodRyhB": "3000",
     "cpmKQMWnB0": "2500",
-    "hzoK4PdUsc": "2"
+    "hzoK4PdUsc": "2",
+    "gPuFU6tgsI": "6"
 }
 
 const versionCookieMap = {
     "hzVGodRyhB": "kartikCounterCookieV3",
     "cpmKQMWnB0": "kartikCounterCookieV4",
-    "hzoK4PdUsc": "katikCounterCookieV1"
+    "hzoK4PdUsc": "katikCounterCookieV1",
+    "gPuFU6tgsI": "kartikCounterCookieV2"
 }
 
 function getCookie(name) {
