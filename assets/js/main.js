@@ -77,13 +77,17 @@ window.onload = function() {
     resizeImage(document.getElementById(imageTwoId));
 }
 
-function preSubmit() {    
+function preSubmit(e) {    
     var label = document.getElementById(labelField).value;
-    if (label > 10 || label < 0)
+    if (label > 10 || label < 0) {
+	e.preventDefault();
 	return false;
+    }
 
-    if (label == "")
+    if (label == "") {
+	e.preventDefault();
 	return false;
+    }
     var versionUserStr = window.location.href.replace(baseUrl, "");
     var versionStr = versionUserStr.split("/")[2];
     

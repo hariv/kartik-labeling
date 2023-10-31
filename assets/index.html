@@ -23,7 +23,7 @@
 	<img id="imageOne" src="img1PlaceHolder.jpg"/>
 	Anonymized
 	<img id="imageTwo" src="img2PlaceHolder.jpg"/></div>
-      <form action="/home" method="POST" id="labelForm" onsubmit="preSubmit();" style="margin-top:525px;margin-left:300px;">
+      <form action="/home" method="POST" id="labelForm" onsubmit="return preSubmit(event);" style="margin-top:525px;margin-left:300px;">
 	<div class="form-group" id="formDiv">
 	  <label for="label">Enter label here (1-10):</label><br/>
 	  <input id="labelField" type="number" min="1" max="10" name="label" />
