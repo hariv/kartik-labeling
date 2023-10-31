@@ -30,34 +30,39 @@ function sendData(data, endpoint) {
 	if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
 	    var response = xmlhttp.responseText;
 	    var responseObject = JSON.parse(response);
-	    
-	    var versionUserStr = window.location.href.replace(baseUrl, "");
-	    var versionStr = versionUserStr.split("/")[2];
-	    var totalCount = "500";
 
-	    if (versionStr in versionCountMap) {
-		// If this exists, then the cookie map should also exit
-		totalCount = versionCountMap[versionStr];
-		
-		if (!getCookie(versionCookieMap[versionStr])) {
-		    setCookie(versionCookieMap[versionStr], 1);
+	    if (!responseObject.complete) {
+		var versionUserStr = window.location.href.replace(baseUrl, "");
+		var versionStr = versionUserStr.split("/")[2];
+		var totalCount = "500";
+
+		if (versionStr in versionCountMap) {
+		    // If this exists, then the cookie map should also exit
+		    totalCount = versionCountMap[versionStr];
+		    
+		    if (!getCookie(versionCookieMap[versionStr])) {
+			setCookie(versionCookieMap[versionStr], 1);
+		    }
 		}
-	    }
 
-	    console.log(responseObject);
-	    document.getElementById(imageOneId).src = responseObject.img_1_b64;
-	    document.getElementById(imageTwoId).src = responseObject.img_2_b64;
-	    document.getElementById(pairIdDiv).innerHTML = "Pair ID: " + responseObject.pair_id;
-	    document.getElementById(hiddenPairId).value = responseObject.pair_id;
-	    
-	    if (getCookie(versionCookieMap[versionStr])) {
-		document.getElementById(counterDiv).innerHTML = getCookie(versionCookieMap[versionStr]) + "/" + totalCount + " done";
+		document.getElementById(imageOneId).src = responseObject.img_1_b64;
+		document.getElementById(imageTwoId).src = responseObject.img_2_b64;
+		document.getElementById(pairIdDiv).innerHTML = "Pair ID: " + responseObject.pair_id;
+		document.getElementById(hiddenPairId).value = responseObject.pair_id;
+		document.getElementById(labelField).value = "";
+					
+		if (getCookie(versionCookieMap[versionStr])) {
+		    document.getElementById(counterDiv).innerHTML = getCookie(versionCookieMap[versionStr]) + "/" + totalCount + " done";
+		}
+		else {
+		    document.getElementById(counterDiv).innerHTML = "1/" + totalCount + " done";
+		}
+		resizeImage(document.getElementById(imageOneId));
+		resizeImage(document.getElementById(imageTwoId));
 	    }
 	    else {
-		document.getElementById(counterDiv).innerHTML = "1/" + totalCount + " done";
+		document.write("<h1>Thank you for your annotations. If you have any questions reach out to <a href='mailto:kpatwari@ucdavis.edu'>Kartik</a></h1>");
 	    }
-	    resizeImage(document.getElementById(imageOneId));
-	    resizeImage(document.getElementById(imageTwoId));
 	}
     }
     xmlhttp.open("POST", endpoint);
