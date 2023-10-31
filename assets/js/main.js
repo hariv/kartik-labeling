@@ -53,10 +53,13 @@ function resizeImage(img) {
     }
 }
 
-window.addEventListener('popstate', function(event) {
-    alert("You've accidentally pressed the back button. Don't do that.");
-});
+//window.addEventListener('popstate', function(event) {
+//    alert("You've accidentally pressed the back button. Don't do that.");
+//});
 
+window.onpopstate=function() {
+    alert("Back/Forward clicked!");
+}
 window.onload = function() {
     var versionUserStr = window.location.href.replace(baseUrl, "");
     var totalCount = "500";
