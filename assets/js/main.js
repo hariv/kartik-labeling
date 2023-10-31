@@ -8,7 +8,6 @@ const counterDiv = "counterDiv";
 const labelField = "labelField";
 const hiddenPairId = "hiddenPairId";
 const baseUrl = "https://kartik-labeling-cvpr-0ed3099180c2.herokuapp.com";
-const counterDiv = "counterDiv";
 const urlExtension = "";
 
 const versionCountMap = {
