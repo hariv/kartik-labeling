@@ -169,6 +169,8 @@ class StaticServer(BaseHTTPRequestHandler):
         label = None
         pair_id = None
 
+        print("post data")
+        print(post_data)
         post_data_pairs = post_data.split("&")
 
         print("post data pairs")
