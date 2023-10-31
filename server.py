@@ -28,7 +28,6 @@ class StaticServer(BaseHTTPRequestHandler):
         self.img_2_placeholder = "img2PlaceHolder.jpg"
         self.pair_id_placeholder = "pairIdPlaceHolder"
         self.cookie_str = "Cookie"
-        #self.kartik_count_cookie_str = "kartikCounterCookie"
         self.student_id_str = "Student-Id"
         self.label_str = "label"
         self.pair_id_str = "pairId"
@@ -245,8 +244,20 @@ class StaticServer(BaseHTTPRequestHandler):
             pair_label_helper.add_label(label, pair_id, request_user)
         pair_label_helper.close_connection()
         
-        content = self.fetch_static_content(base_path, request_version, request_user, request_counter)
-        self.wfile.write(bytes(content, encoding="utf8"))
+        pair_helper = PairHelper(request_version)
+        fetch_results = pair_helper.fetch_pair(request_counter)
+        pair_helper.close_connection()
+        
+        if fetch_results:
+            img_1_b64, img_2_b64, pair_id = fetch_results[0], fetch_results[1], fetch_results[2]
+            response_dict = {}
+            response_dict['img_1_b64'] = img_1_b64
+            response_dict['img_2_b64'] = img_2_b64
+            response_dict['pair_id'] = pair_id
+            json_response = json.dumps(respons_dict)
+            self.wfile.write(json_response)
+        #content = self.fetch_static_content(base_path, request_version, request_user, request_counter)
+        #self.wfile.write(bytes(content, encoding="utf8"))
             
     def do_GET(self):
         if self.path == "/ecs152a_ass1":

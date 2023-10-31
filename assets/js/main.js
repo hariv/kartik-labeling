@@ -4,10 +4,11 @@ const imageTwoId = "imageTwo";
 const formDivId = "formDiv";
 const imageOneName = "imageOneName";
 const imageTwoName = "imageTwoName";
-const labelFormId = "labelForm";
+//const labelFormId = "labelForm";
 const labelField = "labelField";
 const baseUrl = "https://kartik-labeling-cvpr-0ed3099180c2.herokuapp.com";
 const counterDiv = "counterDiv";
+const urlExtension = "";
 //const baseUrl = "http://localhost:8080/";
 
 const versionCountMap = {
@@ -81,7 +82,8 @@ window.onload = function() {
     
     var versionUserStr = window.location.href.replace(baseUrl, "");
     var totalCount = "500";
-    document.getElementById(labelFormId).action = versionUserStr;
+    urlExtension = versionUserStr;
+    //document.getElementById(labelFormId).action = versionUserStr;
 
     var versionStr = versionUserStr.split("/")[2];
 
