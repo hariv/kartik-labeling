@@ -53,9 +53,9 @@ function resizeImage(img) {
     }
 }
 
-window.onhashchange = function() {
+window.addEventListener('popstate', function(event) {
     alert("You've accidentally pressed the back button. Don't do that.");
-}
+});
 
 window.onload = function() {
     var versionUserStr = window.location.href.replace(baseUrl, "");
