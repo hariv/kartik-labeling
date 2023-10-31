@@ -27,7 +27,12 @@ const versionCookieMap = {
 function sendData(data, endpoint) {
     var xmlhttp = new XMLHttpRequest();
     xmlhttp.onreadystatechange = function() {
-	if (this.readyState == 4 && this.state == 200) {
+	console.log("readystatechange");
+	console.log("state");
+	console.log(xmlhttp.readyState);
+	console.log("status");
+	console.log(xmlhttp.status);
+	if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
 	    console.log("received response");
 	    var response = xmlhttp.responseText;
 	    var responseObject = JSON.parse(response);
