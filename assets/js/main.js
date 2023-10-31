@@ -43,7 +43,8 @@ function sendData(data, endpoint) {
 		    setCookie(versionCookieMap[versionStr], 1);
 		}
 	    }
-	    
+
+	    console.log(responseObject);
 	    document.getElementById(imageOneId).src = responseObject.img_1_b64;
 	    document.getElementById(imageTwoId).src = responseObject.img_2_b64;
 	    document.getElementById(pairIdDiv).innerHTML = "Pair ID: " + responseObject.pair_id;

@@ -266,12 +266,20 @@ class StaticServer(BaseHTTPRequestHandler):
         if fetch_results:
             img_1_b64, img_2_b64, pair_id = fetch_results[0], fetch_results[1], fetch_results[2]
             response_dict = {}
+            response_dict['complete'] = False
             response_dict['img_1_b64'] = img_1_b64
             response_dict['img_2_b64'] = img_2_b64
             response_dict['pair_id'] = pair_id
             json_response = json.dumps(response_dict)
             self.send_content_headers(self.mime_type_map[".json"])
             self.wfile.write(json_response.encode(encoding='utf_8'))
+        else:
+            response_dict = {}
+            response_dict['complete'] = True
+            json_response = json.dumps(response_dict)
+            self.send_content_headers(self.mime_type_map[".json"])
+            self.wfile.write(json_response.encode(encoding='utf_8'))
+            
         #content = self.fetch_static_content(base_path, request_version, request_user, request_counter)
         #self.wfile.write(bytes(content, encoding="utf8"))
             
