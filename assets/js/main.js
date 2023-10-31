@@ -63,8 +63,12 @@ function resizeImage(img) {
 //    alert("Back/Forward clicked!");
 //}
 
-window.addEventListener("beforeunload", function (e) {
-    e.returnValue = "Are you sure you want to leave this page?";
+window.addEventListener('popstate', function(event) {
+    if (event.state) {
+        // The back button was pressed
+        console.log('Back button pressed');
+        // Your custom logic here
+    }
 });
 
 window.onload = function() {
