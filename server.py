@@ -220,7 +220,7 @@ class StaticServer(BaseHTTPRequestHandler):
         
     def do_POST(self):
         content_length = int(self.headers["Content-Length"])
-        post_data = self.rfile.read(content_length).decode("utf-8");
+        post_data = json.loads(self.rfile.read(content_length).decode("utf-8"));
         base_path = '/'.join(self.path.split('/')[:-2])
 
         print("path")
