@@ -255,7 +255,8 @@ class StaticServer(BaseHTTPRequestHandler):
             response_dict['img_2_b64'] = img_2_b64
             response_dict['pair_id'] = pair_id
             json_response = json.dumps(response_dict)
-            self.wfile.write(json_response)
+            self.send_content_headers(self.mime_type_map[".json"])
+            self.wfile.write(json_response.encode(encoding='utf_8'))
         #content = self.fetch_static_content(base_path, request_version, request_user, request_counter)
         #self.wfile.write(bytes(content, encoding="utf8"))
             
