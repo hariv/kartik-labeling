@@ -170,10 +170,15 @@ class StaticServer(BaseHTTPRequestHandler):
         pair_id = None
 
         post_data_pairs = post_data.split("&")
+
+        print("post data pairs")
+        print(post_data_pairs)
         
         for data_pair in post_data_pairs:
             param_val = data_pair.split("=")
-            
+
+            print(param_val[0])
+            print(param_val[1])
             if param_val[0] == self.label_str:
                 label = param_val[1]
 
@@ -239,7 +244,10 @@ class StaticServer(BaseHTTPRequestHandler):
 
         label, pair_id = self.extract_post_data(post_data)
         pair_label_helper = PairLabel()
-        
+
+        print(label)
+        print(pair_id)
+        print(request_user)
         if label and pair_id and request_user:
             print("all 3 present")
             pair_label_helper.add_label(label, pair_id, request_user)
