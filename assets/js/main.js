@@ -73,7 +73,7 @@ function resizeImage(img) {
 window.onload = function() {    
     var versionUserStr = window.location.href.replace(baseUrl, "");
     var totalCount = "500";
-    urlExtension = versionUserStr;
+    //urlExtension = versionUserStr;
 
     var versionStr = versionUserStr.split("/")[2];
 
