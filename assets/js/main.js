@@ -13,6 +13,7 @@ const urlExtension = "";
 const versionCountMap = {
     "hzVGodRyhB": "3000",
     "cpmKQMWnB0": "2500",
+    "Kenq4Ntv7i": "2500",
     "hzoK4PdUsc": "2",
     "gPuFU6tgsI": "6"
 }
@@ -21,7 +22,8 @@ const versionCookieMap = {
     "hzVGodRyhB": "kartikCounterCookieV3",
     "cpmKQMWnB0": "kartikCounterCookieV4",
     "hzoK4PdUsc": "katikCounterCookieV1",
-    "gPuFU6tgsI": "kartikCounterCookieV2"
+    "gPuFU6tgsI": "kartikCounterCookieV2",
+    "Kenq4Ntv7i": "kartikCounterCookieV5"
 }
 
 function sendData(data, endpoint) {
